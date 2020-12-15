@@ -4,23 +4,21 @@ Collection of functions for 7-zip.
 
 ## Installation
 
-### hardware requirements
-
-These scripts optimized for the following hardware...
+### Minimum hardware requirements
 
 **CPU:** Dual core processor
 
 **RAM:** 4 GB RAM
 
 
-### prerequisites
+### Prerequisites
 
 In order to use these functions, install the "bash-functions" repository first.
 For more information follow the README.md guide there.
 You can find the copy of this repo in a form of a subtree in the "dependencies-subtree"
 folder or the URL of the original.
 
-https://github.com/tamasviktorkrizsan/bash-functions
+[bash-functions](https://github.com/tamasviktorkrizsan/bash-functions)
 
 
 ### Installation of this repository
@@ -31,8 +29,8 @@ files and copy the contents of the "function-library" folder to it.
 
 ## Usage
 
-Copy the chosen script file from the "function-call" folder to the target folder
-Edit it to your needs, and execute it.
+Copy the chosen script file from the "function-call" folder to the target directory,
+where you want to process your files, edit it to your needs, and execute it.
 
 
 ## Functions
@@ -41,29 +39,19 @@ Edit it to your needs, and execute it.
 
 `decompress "<archive name>";`
 
-Extract archives.
+Extract archive files.
 
 - **default state:** when all parameters are empty, the script
-will extract all archive file type files with 7z,zip,rar,iso extension.
+will extract all archive file type files with the following extensions:  
+7z, zip, rar, iso
 
-- **feature:** auto-output folder: the function sets a output directory if there is
-at least 2 folder or 1 file is in the root folder.
-
-
-## Planned features
-
-These features will be released in the future.
-
-**compress_7z** - The goal of this function to maximize compression efficiency.
-Optimized for high-end PC hardware for archival purposes.
-
-**compress_zip** - The goal of this function to maximize compatibility, Optimized
-for low-end PC hardware for email attachments.
+- **feature:** auto-output folder: the function sets a output directory if at least there is
+2 folders or 1 file in the archive's root folder.
 
 
 ## Developer notes
 
-### code style
+### Code style
 
 The code in this repository formatted according the guidelines of the Google Style Guides.
 If you want to contribute to this project, then read the guide first.
