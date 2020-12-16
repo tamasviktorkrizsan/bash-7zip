@@ -6,7 +6,7 @@ Collection of functions for 7-zip.
 
 ### Minimum hardware requirements
 
-**CPU:** Dual core processor
+**CPU:** dual-core processor
 
 **RAM:** 4 GB RAM
 
@@ -15,10 +15,10 @@ Collection of functions for 7-zip.
 
 In order to use these functions, install the "bash-functions" repository first.
 For more information follow the README.md guide there.
-You can find the copy of this repo in a form of a subtree in the "dependencies-subtree"
-folder or the URL of the original.
+You can find the copy of this repo in the form of a subtree in the "dependencies-subtree"
+folder or through this URL.
 
-[bash-functions](https://github.com/tamasviktorkrizsan/bash-functions)
+https://github.com/tamasviktorkrizsan/bash-functions
 
 
 ### Installation of this repository
