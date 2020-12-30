@@ -15,8 +15,8 @@ Collection of functions for 7-zip.
 
 In order to use these functions, install the "bash-functions" repository first.
 For more information follow the README.md guide there.
-You can find the copy of this repo in the form of a subtree in the "dependencies-subtree"
-folder or through this URL.
+You can find the copy of this repo in the form of a subtree in the "install/dependencies/subtree"
+path or through this URL.
 
 https://github.com/tamasviktorkrizsan/bash-functions
 
@@ -24,12 +24,12 @@ https://github.com/tamasviktorkrizsan/bash-functions
 ### Installation of this repository
 
 Set a PATH environmental variable to the directory where you want store your library
-files and copy the contents of the "function-library" folder to it.
+files and copy the contents of the "install/lib" folder to it.
 
 
 ## Usage
 
-Copy the chosen script file from the "function-call" folder to the target directory,
+Copy the chosen script file from the "call" folder to the target directory,
 where you want to process your files, edit it to your needs, and execute it.
 
 
