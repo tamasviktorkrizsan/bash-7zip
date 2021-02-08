@@ -1,6 +1,6 @@
 #!/bin/bash
 # Call decompress function.
-# Copyright (C) 2020 Tamas Viktor Krizsan
+# Copyright (C) 2020-2021 Tamas Viktor Krizsan
 # <https://github.com/tamasviktorkrizsan>
 # License: GPL-3.0-or-later
 
