@@ -10,10 +10,13 @@
 source bash.inc.sh
 
 
+### BINARY
+
+#PATH=/cygdrive/c/Program Files/7-Zip:$PATH;
+
+
 ### SHARED SETTINGS
 
 ## Constants
 
-readonly -- SEVENZIP_SHARED_SETTINGS="-bb3";
-
-readonly -- SEVENZIP_LOG_SUFFIX="7zip_log.log";
+declare -xr -- SZIP_SHARED_SETTINGS="-bb3";
