@@ -9,6 +9,8 @@
 
 source 7zip.sh
 
+source count_archive.sh
+
 
 ### FUNCTIONS
 
@@ -23,55 +25,47 @@ function decompress () {
 
 ## Input Parameters
 
-local usr_input_file="${1:-*.7z:*.zip:*.rar:*.iso}";
+declare usr_input="${1:-auto}";
 
 
 ## Constants
 
-IFS=':';
+declare -r DEFAULT_INPUT="*.7z *.zip *.rar *.iso";
 
-local -r DECOMPRESS_SETTINGS="-y";
+declare -r DECOMPRESS_SETTINGS="-y";
+
+declare -r OUTPUT_FOLDER="OUTPUT";
 
 
 ## Variables
 
-local archive_folder_number;
-
-local archive_file_number;
-
-local output_folder;
-
-local output_dir;
+declare output_path;
 
 
 ## Processing & Executing Command
 
-for i in $usr_input_file;
+
+case $usr_input in
+
+  "auto")
+
+    for i in $DEFAULT_INPUT;
+    do output_path=$(count_archive "$i" "$OUTPUT_FOLDER");
+    output_log=$(replace_whitespace "${i%.*}");
+    7z x $SZIP_SHARED_SETTINGS $DECOMPRESS_SETTINGS "$i" $output_path 2>&1 |\
+    tee "$OUTPUT_FOLDER/$output_log.log";
+    done;;
 
 
-# count files and folders
+  *)
 
-do archive_folder_number=$(7z l -slt "$i" | grep 'Path = ' | grep -vEc '(/|7z|\.*$)');
+    for i in "$usr_input";
+    do output_dir=$(count_archive "$i" "$OUTPUT_FOLDER");
+    output_log=$(replace_whitespace "${i%.*}");
+    7z x $SZIP_SHARED_SETTINGS $DECOMPRESS_SETTINGS "$i" $output_path 2>&1 |\
+    tee "$OUTPUT_FOLDER/$output_log.log";
+    done;;
 
-archive_file_number=$(7z l -slt "$i" | grep 'Path = ' | grep -vE '(/|7z)'| grep -Ec '(\.*$)');
-
-
-# set output directory if there is at least 2 folder or 1 file is in it
-
-if [[ archive_folder_number -gt 1 ]] || [[ archive_file_number -gt 0 ]];
-
-  then output_folder=$(replace_whitespace "${i%.*}");
-
-  output_dir="-o$output_folder";
-
-  else output_directory='';
-fi;
-
-
-# decompress files
-
-7z x $SEVENZIP_SHARED_SETTINGS $DECOMPRESS_SETTINGS "$i" $output_dir 2>&1 |\
-tee "${i%.*}"_$SEVENZIP_LOG_SUFFIX;
-done;
+esac;
 
 }
