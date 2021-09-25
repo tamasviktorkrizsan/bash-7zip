@@ -18,7 +18,7 @@ declare usr_input="${1}";
 
 declare usr_output_folder="${2}"
 
-declare usr_RAM="${3}";
+declare usr_RAM="${3:-1}";
 
 
 
