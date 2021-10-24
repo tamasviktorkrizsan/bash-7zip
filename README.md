@@ -8,7 +8,7 @@ Bash library for 7-zip scripting.
 
 **CPU:** dual-core processor
 
-**RAM:** 4 GB RAM
+**RAM:** 2 GB RAM
 
 
 ### Prerequisites
@@ -58,10 +58,126 @@ Extract archive files.
 
 #### Features
 
-**auto-output folder:** the function sets a output directory if at least there is
-2 folders or 1 file in the archive's root folder.
+**auto output folder:** depending from the archive's root folder
+structure, the file extraction can make a mess in the the target folder.
+This feature was made to prevent this. If the number of files/folders
+more than 1 OR there is 1 file and 1 folder in the archive's root than a container folder
+(named after the archive) will be made for the output.
 
 
+### compress_zip
+
+Compress files into a zip archive.
+
+`compress_zip "<input>" "<output_folder>";`
+
+
+#### Usage Scenario
+
+- **Compatibility** matters.
+
+- doesn't need any third party program to open it (supported by the OS, like
+  Windows, MAC OSX, Linux)
+
+- doesn't has high hardware requirements to create the archive.
+
+The zip archive file format suits best to this case.
+
+
+#### Parameters
+
+`"<input>"`
+
+**possible values:**
+
+- exact filename
+
+- Simple text file formats. In this case the function will handle the input as
+a list file.
+
+- any other wildcard pattern.
+
+
+**default value:** `*.txt`. If this parameter is omitted by the user, the function
+will look for list files
+
+
+In this case the function will handle the input as
+a list file.
+
+
+`"<output_folder>"`
+
+**possible values:**
+
+- absolute or relative path to the folder, where the function will place the
+output archive. The output file will be named after the input filename.
+
+
+### compress_7z
+
+`compress_7z "<input>" "<output_folder>" "<RAM_gb>";`
+
+Compress files into a 7-zip archive.
+
+
+#### Usage Scenario
+
+- **Compression Ratio** matters.
+
+- Create the smallest archive as possible from the input.
+
+According [Benchmarks] (https://www.howtogeek.com/200698/benchmarked-whats-the-best-file-compression-format/) the 7-zip archive file format suits best to this case.
+
+
+#### Parameters
+
+`"<input>"`
+
+**possible values:**
+
+- exact filename
+
+- Simple text file formats, like `txt`. In this case the function will handle the input as
+a list file.
+
+- any other wildcard pattern.
+
+
+**default value:** `*.txt`
+
+
+`"<output_folder>"`
+
+**possible values:**
+
+- absolute or relative path to the folder, where the function will place the
+output archive. The output file will be named after the input filename.
+
+
+`"<RAM_gb>"`
+
+**possible values:** 1,2,4,8,16,32
+
+**default value:** `1`
+
+Set this value to match your physical memory.
+
+**WARNING**: The matching setting could be resulted in intensive RAM usage (up to 70%).
+ Its strongly recommended to close any unnecessary running software or choose
+ your setting 1 level below your installed RAM.
+
+
+RAM_gb value | dictionary size (MB) | needed memory for compressing (MB) | RAM occupancy (%) |
+------------ | -------------------- | ------------------ | -------------------- |
+1 | 64 | 709 | 70% |
+2 | 128 | 1381 | 68% |
+4 | 256 | 2725 | 67% |
+8 | 512 | 5413 | 67% |
+16 | 1024 | 10789 | 66% |
+32 | 1536 | 16677 | 51% |
+
+**NOTE:** memory occupancy values are rounded up
 
 ## Developer notes
 
@@ -74,6 +190,8 @@ https://google.github.io/styleguide/shellguide.html
 
 
 ## Sources
+
+https://en.wikipedia.org/wiki/ZIP_(file_format)
 
 https://axelstudios.github.io/7z/#!/
 
