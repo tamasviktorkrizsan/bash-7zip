@@ -44,14 +44,14 @@ if [[ dir_number -gt 1 ]] || [[ file_number -gt 1 ]] || [[ dir_number -eq 1 ]] &
 
   then extracted_folder=$(replace_whitespace "${usr_input%.*}");
 
-  output_path="-o$output_folder/$extracted_folder/";
+  output_path="$output_folder/$extracted_folder/";
 
-else output_path="-o$output_folder";
+else output_path="$output_folder";
 
 fi;
 
 
-### OUTPUTS
+### OUTPUT
 
 echo "$output_path";
 
