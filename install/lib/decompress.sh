@@ -25,7 +25,9 @@ function decompress () {
 
 ## Input Parameters
 
-declare usr_input="${1:-auto}";
+declare usr_input="${1:-default}";
+
+declare usr_output_folder="${2:-OUTPUT}";
 
 
 ## Constants
@@ -33,8 +35,6 @@ declare usr_input="${1:-auto}";
 declare -r DEFAULT_INPUT="*.7z *.zip *.rar *.iso";
 
 declare -r DECOMPRESS_SETTINGS="-y";
-
-declare -r OUTPUT_FOLDER="OUTPUT";
 
 
 ## Variables
@@ -44,26 +44,27 @@ declare output_path;
 
 ## Processing & Executing Command
 
-
 case $usr_input in
 
-  "auto")
+  "default")
+
+    # extract all  of archive format
 
     for i in $DEFAULT_INPUT;
-    do output_path=$(count_archive "$i" "$OUTPUT_FOLDER");
+    do output=$(count_archive "$i" "$usr_output_folder");
     output_log=$(replace_whitespace "${i%.*}");
-    7z x $SZIP_SHARED_SETTINGS $DECOMPRESS_SETTINGS "$i" $output_path 2>&1 |\
-    tee "$OUTPUT_FOLDER/$output_log.log";
+    7z x $SZIP_SHARED_SETTINGS $DECOMPRESS_SETTINGS "$i" -o$output 2>&1 |\
+    tee "$usr_output_folder/$output_log.log";
     done;;
 
 
   *)
 
     for i in "$usr_input";
-    do output_dir=$(count_archive "$i" "$OUTPUT_FOLDER");
+    do output=$(count_archive "$i" "$usr_output_folder");
     output_log=$(replace_whitespace "${i%.*}");
-    7z x $SZIP_SHARED_SETTINGS $DECOMPRESS_SETTINGS "$i" $output_path 2>&1 |\
-    tee "$OUTPUT_FOLDER/$output_log.log";
+    7z x $SZIP_SHARED_SETTINGS $DECOMPRESS_SETTINGS "$i" -o$output 2>&1 |\
+    tee "$usr_output_folder/$output_log.log";
     done;;
 
 esac;
