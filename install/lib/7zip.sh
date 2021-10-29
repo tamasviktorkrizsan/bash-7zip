@@ -1,5 +1,5 @@
 #!/bin/bash
-# 7-zip shared settings.
+# This file contains 7-zip user and shared settings
 # Copyright (C) 2020-2021 Tamas Viktor Krizsan
 # <https://github.com/tamasviktorkrizsan>
 # License: GPL-3.0-or-later
@@ -10,9 +10,16 @@
 source bash.inc.sh
 
 
-### BINARY
+### USER SETTINGS
+
+## Binary
 
 #PATH=/cygdrive/c/Program Files/7-Zip:$PATH;
+
+
+## Character Set
+
+declare -xr -- CHARSET="UTF-8";
 
 
 ### SHARED SETTINGS
