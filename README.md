@@ -15,15 +15,7 @@ Bash library for 7-zip scripting.
 
 - **7-zip:** https://www.7-zip.org/download.html
 
-Make sure, to set a **PATH** environmental variable that points to the folder,
-which contains the software executable.
-
-
 - **bash-functions:** https://github.com/tamasviktorkrizsan/bash-functions
-
-(You can find the copy of this repository in the form of a subtree in the
-`install/dependencies/subtree` path). Follow the installation steps in the local
-README.md file.
 
 
 ### Installation of this repository
@@ -127,7 +119,25 @@ Compress files into a 7-zip archive.
 
 - Create the smallest archive as possible from the input.
 
+- Large amount of available free RAM
+
 According [Benchmarks] (https://www.howtogeek.com/200698/benchmarked-whats-the-best-file-compression-format/) the 7-zip archive file format suits best to this case.
+
+
+#### Features
+
+- Set the dictionary size based on the current amount of free RAM. To maximize
+this close any unnecessary running program, when you using this function.  
+
+
+dictionary size | needed memory for compressing |
+--------------- | ----------------------------- |
+64mb  | 709mb |
+128mb | 1381mb |
+256mb | 2725mb |
+512mb | 5413mb |
+1024mb | 10789mb |
+1536mb | 16677mb |
 
 
 #### Parameters
@@ -154,30 +164,6 @@ a list file.
 - absolute or relative path to the folder, where the function will place the
 output archive. The output file will be named after the input filename.
 
-
-`"<RAM_gb>"`
-
-**possible values:** 1,2,4,8,16,32
-
-**default value:** `1`
-
-Set this value to match your physical memory.
-
-**WARNING**: The matching setting could be resulted in intensive RAM usage (up to 70%).
- Its strongly recommended to close any unnecessary running software or choose
- your setting 1 level below your installed RAM.
-
-
-RAM_gb value | dictionary size (MB) | needed memory for compressing (MB) | RAM occupancy (%) |
------------- | -------------------- | ------------------ | -------------------- |
-1 | 64 | 709 | 70% |
-2 | 128 | 1381 | 68% |
-4 | 256 | 2725 | 67% |
-8 | 512 | 5413 | 67% |
-16 | 1024 | 10789 | 66% |
-32 | 1536 | 16677 | 51% |
-
-**NOTE:** memory occupancy values are rounded up
 
 ## Developer notes
 
