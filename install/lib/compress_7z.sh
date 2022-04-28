@@ -1,6 +1,6 @@
 #!/bin/bash
-# Compress archive files.
-# Copyright (C) 2020-2021 Tamas Viktor Krizsan
+# Compress 7-zip archive files.
+# Copyright (C) 2020-2022 Tamas Viktor Krizsan
 # <https://github.com/tamasviktorkrizsan>
 # License: GPL-3.0-or-later
 
@@ -10,99 +10,116 @@
 source 7zip.sh
 
 
+### FUNCTIONS
+
+############################################################
+# Compress  7z archives. Helper function.
+# Used by the "compress_7z" function's loop structure.
+# Arguments:
+#  input file/folder or list file, output folder
+# Outputs:
+#  Compressed 7-zip archive + log in a subfolder
+############################################################
+function compress_7z_file () {
+
+  ## Input Parameters
+
+  declare usr_input="${1:-default}";
+
+  declare usr_output_folder="${2:-OUTPUT}";
+
+
+  ## Includes
+
+  source memoryinfo.sh
+
+
+  ## Constant Settings
+
+  # scan lvl, CPU Threads, Compression Algorithm, Compression lvl, Word Size,
+  # solid_block_size, output format
+
+  declare -r -- CONSTANT_SETTINGS="-myx9 -mmt2 -m0=LZMA2 -mx9 -mfb273 -ms64g -t7z";
+
+
+  ## Processing
+
+  # Estimate dict_size from the amount of free RAM
+
+  declare dict_size;
+
+  dict_size=$(get_dictionary_size);
+
+  declare settings="$SZIP_SHARED_SETTINGS $CONSTANT_SETTINGS $dict_size";
+
+
+  declare -- output_path;
+
+  output_path=$(handle_output "$usr_input" "$usr_output_folder");
+
+
+
+  ## Output
+
+  case $usr_input in
+
+    *.list)
+      7z a $settings "$output_path.7z" @"$usr_input" -scs$CHARSET 2>&1 |\
+      tee "$output_path.log";;
+
+
+     *)
+      7z a $settings "$output_path.7z" "$usr_input" 2>&1 |\
+      tee "$output_path.log";;
+
+  esac
+
+}
+
+############################################################
+# Compress  7z archives. End-user function.
+# Arguments:
+#  input file/folder or list file, output folder
+# Outputs:
+#  Compressed 7-zip archive + log in a subfolder
+############################################################
 function compress_7z () {
 
 ### INPUT PARAMETERS
 
-declare usr_input="${1}";
+declare usr_input="${1:-default}";
 
-declare usr_output_folder="${2}"
-
-declare usr_RAM="${3:-1}";
+declare usr_output_folder="${2:-OUTPUT}";
 
 
 
-### CONSTANT SETTINGS
-
-# scan, process, CCodec, clvl, solid_block_size, output format
-
-declare -r -- CONSTANT_SETTINGS="-myx9 -mmt2 -m0=LZMA2 -mx9 -mfb273 -ms64g -t7z";
-
-
-### PROCESSING
-
-declare dictionary_size;
-
-case $usr_RAM in
-
-
-  "1")
-
-    dictionary_size="-md64m";;
-
-
-  "2")
-
-    dictionary_size="-md128m";;
-
-
-  "4")
-
-    dictionary_size="-md256m";;
-
-
-  "8")
-
-    dictionary_size="-md512m";;
-
-
-  "16")
-
-    dictionary_size="-md1024m";;
-
-
-  "32")
-
-    dictionary_size="-md1536m";;
-
-
-  *)
-
-    echo "ERROR! Not a valid RAM size! Check the RAM_gb parameter!";;
-
-
-esac
-
-set -- "$dictionary_size";
-
-declare compress_settings="$CONSTANT_SETTINGS $dictionary_size";
-
-
-declare -- output;
 
 case $usr_input in
 
-  "*.txt")
+  default | '*.txt')
 
-       for i in *.txt;
-       do output=$(handle_output "$i" "");
-       7z a $SZIP_SHARED_SETTINGS $compress_settings "$output.7z" @"$i" 2>&1 |\
-       tee "$output.log";
-       done;;
+    echo "process all list files in the current directory";
+
+    for i in *.txt;
+    do compress_7z_file "$usr_input" "$usr_output_folder";
+    done;;
 
 
   *.txt)
 
-    output=$(handle_output "$usr_input" "");
-    7z a $SZIP_SHARED_SETTINGS $compress_settings "$output.7z" @"$usr_input" 2>&1 |\
-    tee "$output.log";;
+    echo "process a list file";
+
+    compress_7z_file "$usr_input" "$usr_output_folder";
+
 
 
    *)
 
-     output=$(handle_output "$usr_input" "");
-     7z a $SZIP_SHARED_SETTINGS $compress_settings "$output" "$usr_input" 2>&1 |\
-     tee "$output.log";;
+    echo "compress file(s) or folder(s)";
+
+    for i in "$usr_input";
+    do compress_7z_file "$usr_input" "$usr_output_folder";
+    done;;
 
 esac
 
