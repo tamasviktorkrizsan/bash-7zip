@@ -19,11 +19,11 @@ source bash.inc.sh
 
 ## Character Set
 
-declare -xr -- CHARSET="UTF-8";
+declare -r CHARSET="UTF-8";
 
 
 ### SHARED SETTINGS
 
 ## Constants
 
-declare -xr -- SZIP_SHARED_SETTINGS="-bb3";
+declare -r -- SZIP_SHARED_SETTINGS="-bb3";
