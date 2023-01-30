@@ -7,7 +7,7 @@
 
 ### INCLUDES
 
-source bash.inc.sh
+source header.bash.sh
 
 
 ### USER SETTINGS
