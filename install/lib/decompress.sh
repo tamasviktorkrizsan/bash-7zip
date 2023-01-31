@@ -7,9 +7,9 @@
 
 ### INCLUDES
 
-source 7zip.sh
+source header.7zip.sh
 
-source count_archive.sh
+source header.count_archive.sh
 
 
 ### FUNCTIONS
@@ -39,34 +39,14 @@ declare -r DECOMPRESS_SETTINGS="-y";
 
 ## Variables
 
-declare output_path;
+declare output_path="$usr_output_folder/$output_log";
 
 
 ## Processing & Executing Command
 
-case $usr_input in
-
-  "default")
-
-    # extract all  of archive format
-
-    for i in $DEFAULT_INPUT;
-    do output=$(count_archive "$i" "$usr_output_folder");
-    output_log=$(replace_whitespace "${i%.*}");
+    output=$(count_archive "$usr_input" "$usr_output_folder");
+    output_log=$(replace_whitespace "${usr_input%.*}");
     7z x $SZIP_SHARED_SETTINGS $DECOMPRESS_SETTINGS "$i" -o$output 2>&1 |\
-    tee "$usr_output_folder/$output_log.log";
-    done;;
-
-
-  *)
-
-    for i in "$usr_input";
-    do output=$(count_archive "$i" "$usr_output_folder");
-    output_log=$(replace_whitespace "${i%.*}");
-    7z x $SZIP_SHARED_SETTINGS $DECOMPRESS_SETTINGS "$i" -o$output 2>&1 |\
-    tee "$usr_output_folder/$output_log.log";
-    done;;
-
-esac;
+    tee "$output_path.log";
 
 }
